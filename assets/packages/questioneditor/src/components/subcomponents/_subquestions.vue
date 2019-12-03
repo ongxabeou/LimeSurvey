@@ -132,7 +132,13 @@ export default {
             if(this.readonly) {
                 this.triggerEvent({ target: 'lsnextquestioneditor', method: 'triggerEditQuestion', content: {} });
             }
-        }
+        },
+         isSurveyActive() {
+            if (this.$store.state.survey.active == "Y") {
+                return true; 
+            }
+            return false;
+        },
     },
     mounted() {
         if(isEmpty(this.$store.state.currentQuestionSubquestions)){
@@ -147,9 +153,15 @@ export default {
     <div class="col-sm-12">
         <div class="container-fluid scoped-main-subquestions-container">
             <div class="row" v-show="!readonly">
-                <div class="col-sm-8">
+
+                <div class="col-sm-8" v-if="!isSurveyActive()">
                     <button class="btn btn-default col-3" @click.prevent="openQuickAdd()">{{ "Quick add" | translate }}</button>
                 </div>
+
+                <div class="col-sm-8" v-else >
+                    <button class="btn btn-default col-3 " @click.prevent="openQuickAdd()">{{ "Quick add" | translate }}</button>
+                </div>
+                
                 <div class="col-sm-4 text-right">
                     <button class="btn btn-danger col-5" @click.prevent="resetSubquestions()">{{ "Reset" | translate }}</button>
                 </div>
